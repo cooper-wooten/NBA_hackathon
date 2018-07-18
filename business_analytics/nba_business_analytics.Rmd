@@ -1,0 +1,124 @@
+---
+title: "NBA_Business_Analyics"
+output: html_document
+---
+```{r}
+game = read.csv("game_data.csv")
+player = read.csv("player_data.csv")
+test = read.csv("test_set.csv")
+train = read.csv("training_set.csv")
+```
+
+```{r}
+# Make a new test data that contains country information
+
+countries = unique(train$Country)
+new_test = matrix(nrow = 0, ncol = length(colnames(train)[1:6]))
+colnames(new_test) = colnames(train)[1:6]
+
+for(i in nrow(test)) {
+    season = test$Season[i]
+    game = test$Game_ID[i]
+    date = test$Game_Date[i]
+    away = test$Away_Team[i]
+    home = test$Home_Team[i]
+    for(country in countries) {
+        new_test = rbind(new_test, list(season = season, game = game, date = date, away = away, home = home, country = country))
+    }
+}
+```
+
+```{r}
+# Add whether that team won or lost in the game dataset
+# teams = as.vector(unique(game$Team))
+# for (row in game) {
+#     
+# }
+```
+
+```{r}
+# Function for finding distribution of viewerships from each country for each team
+find.country.distribution = function(df, is.home) {
+    countries = c(levels(unique(df$Country)))
+    teams = ifelse(rep(is.home, length(unique(df$Home_Team))), c(levels(unique(df$Home_Team))), c(levels(unique(df$Away_Team))))
+    # Matrix of distribution of viewers from each country, where first column is team
+    dist.mat = matrix(nrow = 0, ncol = length(countries) + 1)
+    colnames(dist.mat) = c("Team", countries)
+    
+    for (t in teams) {
+        this.row = c(t)
+        for (country in countries) {
+            subsetted = subset(df, as.character(df$Country) == country & as.character(df$Home_Team) == t)
+            total.viewers = sum(subsetted$Rounded.Viewers)
+            
+            this.row = c(this.row, total.viewers)
+        }
+        dist.mat = rbind(dist.mat, this.row)
+    }
+    rownames(dist.mat) = seq(1, nrow(dist.mat))
+    
+    return(data.frame(dist.mat, stringsAsFactors=F))
+}
+```
+
+```{r}
+home_country_dist = find.country.distribution(train, is.home=T)
+away_country_dist = find.country.distribution(train, is.home=F)
+
+home_country_melt = melt(home_country_dist, id.vars="Team")
+away_country_melt = melt(away_country_dist, id.vars="Team")
+```
+
+```{r}
+make_distribution_of_two = function(home, away, team) {
+    subsetted.home = subset(home, home$Team == team) 
+    print(subsetted.home)
+    subsetted.away = subset(away, away$Team == team)
+    print(subsetted.away)
+    
+    ggplot() +
+        geom_col(data=subsetted.home, aes(x = variable, y = value, fill=team), color="Blue", position="dodge") +
+        geom_col(data=subsetted.away, aes(x = variable, y = value, fill=team), color="Red", position="dodge")
+}
+
+make_distribution_of_two(home_country_melt, away_country_melt, "BOS")
+```
+
+
+```{r}
+# Draw the distribution of countries factored on teams
+library(ggplot2)
+library(randomcoloR)
+
+col.palette = distinctColorPalette(length(country_dist))
+
+ggplot(data = country_dist_m, aes(x = variable, y = value)) +
+    geom_line(aes(colour = Team, group = Team)) +
+    geom_point(aes(colour = Team))
+    # geom_point(aes(colour=factor(Team))) +
+
+ggplot(data = country_dist_m, aes(x = variable, y = value)) +
+    geom_col(aes(fill = Team), position="dodge")
+    # coord_polar("y")
+
+viewer.count = table(country_dist$CLE, country_dist$GSW)
+barplot(viewer.count, col=col.palette[1:2])
+
+barplot(country_dist$LAC)
+lines(country_dist$CLE)
+for (i in 1:length(colnames(country_dist))) {
+    country = colnames(country_dist)[i]
+    
+    print(gg + geom_bar(aes(x = rownames(country_dist), y = country_dist[, country]), col=col.palette[i], stat="identity") +
+        labs(x = "Countries", y = country))
+}
+
+ggplot(country_dist) + 
+    geom_oiu(aes(x = rownames(country_dist), y = country_dist[, "DAL"]), stat="identity")
+
+
+ggplot(country_dist) +
+    geom_bar(aes(x = rownames(country_dist), y = ATL), stat="identity")
+```
+
+
