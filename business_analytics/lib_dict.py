@@ -1,0 +1,47 @@
+team_dict = {}
+team_dict['GS'] = 'GSW'
+team_dict['NO'] = 'NOP'
+team_dict['NY'] = 'NYK'
+team_dict['PHO'] = 'PHX'
+team_dict['SA'] = 'SAS'
+
+allstar_dict = {}
+allstar_dict['East ASG'] = 1
+allstar_dict['West ASG'] = 1
+allstar_dict['None'] = 0
+
+active_dict = {}
+active_dict['Active'] = 1
+active_dict['Inactive'] = 0
+
+teamname_dict = {}
+teamname_dict['Atlanta Hawks'] = 'ATL'
+teamname_dict['Boston Celtics'] = 'BOS'
+teamname_dict['Brooklyn Nets'] = 'BKN'
+teamname_dict['Charlotte Hornets'] = 'CHA'
+teamname_dict['Chicago Bulls'] = 'CHI'
+teamname_dict['Cleveland Cavaliers'] = 'CLE'
+teamname_dict['Dallas Mavericks'] = 'DAL'
+teamname_dict['Denver Nuggets'] = 'DEN'
+teamname_dict['Detroit Pistons'] = 'DET'
+teamname_dict['Golden State Warriors'] = 'GSW'
+teamname_dict['Houston Rockets'] = 'HOU'
+teamname_dict['Indiana Pacers'] = 'IND'
+teamname_dict['Los Angeles Lakers'] = 'LAL'
+teamname_dict['Los Angeles Clippers'] = 'LAC'
+teamname_dict['Memphis Grizzlies'] = 'MEM'
+teamname_dict['Miami Heat'] = 'MIA'
+teamname_dict['Milwaukee Bucks'] = 'MIL'
+teamname_dict['Minnesota Timberwolves'] = 'MIN'
+teamname_dict['New Orleans Pelicans'] = 'NOP'
+teamname_dict['New York Knicks'] = 'NYK'
+teamname_dict['Oklahoma City Thunder'] = 'OKC'
+teamname_dict['Orlando Magic'] = 'ORL'
+teamname_dict['Philadelphia 76ers'] = 'PHI'
+teamname_dict['Phoenix Suns'] = 'PHX'
+teamname_dict['Portland Trailblazers'] = 'POR'
+teamname_dict['Sacramento Kings'] = 'SAC'
+teamname_dict['San Antonio Spurs'] = 'SAS'
+teamname_dict['Toronto Raptors'] = 'TOR'
+teamname_dict['Utah Jazz'] = 'UTA'
+teamname_dict['Washington Wizards'] = 'WAS'

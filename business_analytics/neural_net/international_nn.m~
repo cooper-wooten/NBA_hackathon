@@ -1,0 +1,18 @@
+clear all
+close all
+clc
+
+training_data = csvread('new_train.csv',1,5);
+input = training_data(:,1:end-1).';
+target = training_data(:,end).';
+
+net = narxnet(1:2,1:2,10);
+[Xs,Xi,Ai,Ts] = preparets(net,X,{},T);
+net = train(net,Xs,Ts,Xi,Ai);
+view(net)
+
+output = net(input);
+
+plot(target(1:20),'o')
+hold on
+plot(output(1:20),'o')
